@@ -119,3 +119,95 @@ exports.delete = function(req, resp, reqBody){
         httpmsgs.show500(req, resp, ex);
     }
 };
+
+
+/* above is the basics of crud*/
+
+/* below are the mycub functions*/
+exports.getPlace = function(req, resp){
+    db.executeSql("select * from place", function(data, err){
+        if(err){
+            httpmsgs.show500(req, resp, err);
+        }
+        else{
+            httpmsgs.sendJSON(req, resp, data);
+         }
+    });
+};
+
+exports.getEventByid = function(req, resp, id){
+    //console.log(id)
+    db.executeSql("select * from place where catagory = '" + id + "';", function(data, err){
+        if(err){
+            httpmsgs.show500(req, resp, err);
+        }
+        else{
+            httpmsgs.sendJSON(req, resp, data);
+			//resp.send(data);
+         }
+    });
+};
+
+exports.getEntertainment = function(req, resp){
+    //console.log(id)
+    db.executeSql("select * from place where catagory = 'entertainment';", function(data, err){
+        if(err){
+            httpmsgs.show500(req, resp, err);
+        }
+        else{
+            httpmsgs.sendJSON(req, resp, data);
+			//resp.send(data);
+         }
+    });
+};
+
+exports.getEntertainmentByid = function(req, resp, id){
+    //console.log(id)
+    db.executeSql("select * from place where catagory = '"+ id +"';", function(data, err){
+        if(err){
+            httpmsgs.show500(req, resp, err);
+        }
+        else{
+            httpmsgs.sendJSON(req, resp, data);
+			//resp.send(data);
+         }
+    });
+};
+
+exports.getNightClub = function(req, resp, id){
+    //console.log(id)
+    db.executeSql("select * from place where catagory = 'nightclub';", function(data, err){
+        if(err){
+            httpmsgs.show500(req, resp, err);
+        }
+        else{
+            httpmsgs.sendJSON(req, resp, data);
+			//resp.send(data);
+         }
+    });
+};
+
+exports.getEvents = function(req, resp){
+    db.executeSql("select * from event;", function(data, err){
+        if(err){
+            httpmsgs.show500(req, resp, err);
+        }
+        else{
+            httpmsgs.sendJSON(req, resp, data);
+			//resp.send(data);
+         }
+    });
+};
+
+exports.getEventCalender = function(req, res){
+    //SELECT * FROM myTable WHERE  DATE(myDate) = DATE(NOW()); //date greater than today.
+    db.executeSql("select * from event where DATE(date) > DATE(NOW());", function(data, err){
+        if(err){
+            httpmsgs.show500(req, res, err);
+        }
+        else{
+             httpmsgs.sendJSON(req, res, data);    
+            }
+            res.end();
+    }); 
+};

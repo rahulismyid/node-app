@@ -18,7 +18,7 @@ exports.dbConfig = {
     host     : 'localhost',
     user     : 'root',
     password : 'rahul',
-    database : 'login_user'
+    database : 'myclub'
 };
 
 exports.httpMsgsFormat = "HTML";

@@ -5,8 +5,9 @@ var httpmsgs = require("./httpMsgs");
 var settings = require('../settings');
 var regex = require('node-regexp');
 
-http.createServer(function (req, resp){
-    switch (req.method) {
+http.createServer(function (req, res){
+
+/*    switch (req.method) {
         case 'GET':
         
             if(req.url === "/"){
@@ -92,6 +93,57 @@ http.createServer(function (req, resp){
         default:
             httpmsgs.show405(req, resp);
         break;
+    }
+*/
+
+/* above is basic crud example */
+
+/* below is myclub functions   */
+    switch(req.method)
+    {
+        case'GET':
+            if(req.url === '/'){
+                if (settings.httpMsgsFormat === "HTML") {
+                    res.writeHead(200, { "Content-Type": "text/html" });
+                    res.write("<html><head><title>HOME</title></head><body>Valid End Points: <br> / - GET - Home.<br> /allplaces - GET - To List all PLACES. <br>/allevents - GET - To list all EVENTS.<br>/entertainment - GET - To list places with any EVENTS or ENTERTAINMENT HAPPENINGS .<br>/eventcal - GET - To list all upcoming events(from today onwards).<br>/entertainment/'category' - GET - To list places by category(Eg: bar, nightclub..). </body> </html>");
+                }
+                else {
+                    res.writeHead(200, { "Content-Type": "application/json" });
+                    res.write(JSON.stringify([
+                        { url: "/employees", operation: "GET", description: "To List all employees." },
+                        { url: "/employees/<empNo>", operation: "GET", description: "To search an employee." }
+                    ]));
+                }
+                res.end();
+            httpmsgs.sendHome(req, res);
+            }
+            else if(req.url ==='/allplaces'){
+                admin.getPlace(req, res);
+            }
+            else if(req.url === '/allevents'){
+                admin.getEvents(req, res);
+            }
+            else if(req.url === '/eventcal'){
+                admin.getEventCalender(req, res);
+            }
+            else if(req.url === '/entertainment'){
+                admin.getEntertainment(req, res);
+            }
+            else{
+                var idPatt = "[a-z]+";
+                var Patt = new RegExp("/entertainment/" + idPatt);
+                if (Patt.test(req.url)) {
+                    Patt = new RegExp(idPatt);
+                    //var id = Patt.exec(req.url);  //used in the previous case.
+                    var url = req.url; //this will be /user/5/docs.
+                    var id = url.split("/")[2]; // this will be 5.
+                    admin.getEntertainmentByid(req, res, id);
+                }
+                else {
+                    httpmsgs.show404(req, res);
+                }
+            }
+            break;
     }
 }).listen(2000, function(){
     console.log("Started listening at: 2000");

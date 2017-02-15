@@ -68,7 +68,7 @@ exports.send200 = function(req, resp){
 exports.sendHome = function(req, resp){
         if(settings.httpMsgsFormat === "HTML"){
         resp.writeHead(200,{"Content-Type": "text/html"});
-        resp.write("<html><head><title>HOME</title></head><body>Valid End Points: <br> /employees - GET - To List all employees. <br>/employees/empno - GET - To seach ann employee with 'empno'. </body> </html>");
+        resp.end("<html><head><title>HOME</title></head><body>Valid End Points: <br> /employees - GET - To List all employees. <br>/employees/empno - GET - To seach ann employee with 'empno'. </body> </html>");
     }
     else{
         resp.writeHead(200,{"Content-Type": "application/json"});
